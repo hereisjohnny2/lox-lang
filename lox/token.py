@@ -3,12 +3,13 @@ from typing import Any
 
 
 class TokenType(enum.Enum):
-    VAR = 0
-    IDENTIFIER = 1
-    EQUAL = 2
-    STRING = 3
-    SEMICOLON = 4
-    EOF = 5
+    VAR = enum.auto()
+    IDENTIFIER = enum.auto()
+    EQUAL = enum.auto()
+    STRING = enum.auto()
+    NUMERIC = enum.auto()
+    SEMICOLON = enum.auto()
+    EOF = enum.auto()
 
 
 KEYWORDS = {

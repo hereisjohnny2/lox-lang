@@ -34,28 +34,41 @@ class Scanner:
                 return None
             case '"':
                 return self.read_string_literal()
-        if c.isalpha():
-            return self.read_identifier()
+            case c if c.isnumeric():
+                return self.read_numeric()
+            case c if c.isalpha():
+                return self.read_identifier()
 
         return None
 
     def read_string_literal(self):
-        c = self.source[self.current]
-        while c != '"' and not self.at_end():
-            if c == "\n":
+        while self.peek() != '"' and not self.at_end():
+            if self.peek() == "\n":
                 self.line += 1
-            self.current += 1
-            c = self.source[self.current]
+            self.advance()
 
-        literal = self.source[self.start + 1 : self.current]
-        self.current += 1
+        self.advance()
+
+        literal = self.source[self.start + 1 : self.current - 1]
         return Token(TokenType.STRING, literal, self.line, literal)
 
+    def read_numeric(self):
+        while self.peek().isnumeric():
+            self.advance()
+
+        if self.peek() == "." and self.peek(1).isnumeric():
+            self.advance()
+            while self.peek().isnumeric():
+                self.advance()
+
+        value = self.source[self.start : self.current]
+        literal = float(value) if "." in value else int(value)
+
+        return Token(TokenType.NUMERIC, value, self.line, literal)
+
     def read_identifier(self):
-        c = self.source[self.current]
-        while c.isalpha() or c.isnumeric():
-            self.current += 1
-            c = self.source[self.current]
+        while self.peek().isalnum():
+            self.advance()
 
         value = self.source[self.start : self.current]
 
@@ -63,3 +76,17 @@ class Scanner:
             return Token(token_type, value, self.line)
 
         return Token(TokenType.IDENTIFIER, value, self.line)
+
+    def advance(self) -> str:
+        if self.at_end():
+            return None
+
+        c = self.source[self.current]
+        self.current += 1
+        return c
+
+    def peek(self, next: int = 0) -> str:
+        if self.current + next >= len(self.source):
+            return "\0"
+
+        return self.source[self.current + next]
