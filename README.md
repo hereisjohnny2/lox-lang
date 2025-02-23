@@ -21,7 +21,7 @@ $ python3 main.py <path/to/script.lox>
 var str = "lox";
 var number = 1234.67;
 
-func do_something(a, b) {
+fun do_something(a, b) {
     return a * b;
 }
 

@@ -1,9 +1,9 @@
 var str = "lox";
 var number = 1234.67;
 
-func do_something(a, b) {
+fun do_something(a, b) {
     return a * b;
 }
 
-print do_something(number, 2)
-print str
+print do_something(number, 2);
+print str;
