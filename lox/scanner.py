@@ -25,10 +25,54 @@ class Scanner:
         c = self.source[self.current]
         self.current += 1
         match c:
-            case "=":
-                return Token(TokenType.EQUAL, "=", self.line)
             case ";":
                 return Token(TokenType.SEMICOLON, ";", self.line)
+            case "(":
+                return Token(TokenType.LEFTPARAM, "(", self.line)
+            case ")":
+                return Token(TokenType.RIGHTPARAM, ")", self.line)
+            case "{":
+                return Token(TokenType.LEFTBRACE, "{", self.line)
+            case "}":
+                return Token(TokenType.RIGHTBRACE, "}", self.line)
+            case ",":
+                return Token(TokenType.COMMA, ",", self.line)
+            case ".":
+                return Token(TokenType.DOT, ".", self.line)
+            case "+":
+                return Token(TokenType.PLUS, "+", self.line)
+            case "-":
+                return Token(TokenType.MINUS, "-", self.line)
+            case "*":
+                return Token(TokenType.STAR, "*", self.line)
+            case "=":
+                return (
+                    Token(TokenType.EQUAL_EQUAL, "==", self.line)
+                    if self.match("=")
+                    else Token(TokenType.EQUAL, "=", self.line)
+                )
+            case ";":
+                return Token(TokenType.SEMICOLON, ";", self.line)
+            case ">":
+                return (
+                    Token(TokenType.GREATER_EQUAL, ">=", self.line)
+                    if self.match("=")
+                    else Token(TokenType.GREATER, ">", self.line)
+                )
+            case "<":
+                return (
+                    Token(TokenType.LESS_EQUAL, "<=", self.line)
+                    if self.match("=")
+                    else Token(TokenType.LESS, "<", self.line)
+                )
+            case "!":
+                return (
+                    Token(TokenType.BANG_EQUAL, "!=", self.line)
+                    if self.match("=")
+                    else Token(TokenType.BANG, "!", self.line)
+                )
+            case "/":
+                return self.ignore_comments()
             case "\n":
                 self.line += 1
                 return None
@@ -40,6 +84,14 @@ class Scanner:
                 return self.read_identifier()
 
         return None
+
+    def ignore_comments(self):
+        if self.match("/"):
+            while self.peek() != "\n" and not self.at_end():
+                self.advance()
+            return None
+
+        return Token(TokenType.SLASH, "/", self.line)
 
     def read_string_literal(self):
         while self.peek() != '"' and not self.at_end():
@@ -84,6 +136,16 @@ class Scanner:
         c = self.source[self.current]
         self.current += 1
         return c
+
+    def match(self, expected: str) -> bool:
+        if self.at_end():
+            return False
+
+        if self.source[self.current] != expected:
+            return False
+
+        self.current += 1
+        return True
 
     def peek(self, next: int = 0) -> str:
         if self.current + next >= len(self.source):

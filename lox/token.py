@@ -3,17 +3,68 @@ from typing import Any
 
 
 class TokenType(enum.Enum):
+    # Keywords
     VAR = enum.auto()
+    AND = enum.auto()
+    CLASS = enum.auto()
+    ELSE = enum.auto()
+    FALSE = enum.auto()
+    FUN = enum.auto()
+    FOR = enum.auto()
+    IF = enum.auto()
+    NIL = enum.auto()
+    OR = enum.auto()
+    PRINT = enum.auto()
+    RETURN = enum.auto()
+    SUPER = enum.auto()
+    THIS = enum.auto()
+    TRUE = enum.auto()
+    WHILE = enum.auto()
+    # Literals
     IDENTIFIER = enum.auto()
-    EQUAL = enum.auto()
     STRING = enum.auto()
     NUMERIC = enum.auto()
+    # Single Characters Tokens
     SEMICOLON = enum.auto()
+    LEFTPARAM = enum.auto()
+    RIGHTPARAM = enum.auto()
+    LEFTBRACE = enum.auto()
+    RIGHTBRACE = enum.auto()
+    COMMA = enum.auto()
+    DOT = enum.auto()
+    PLUS = enum.auto()
+    MINUS = enum.auto()
+    STAR = enum.auto()
+    SLASH = enum.auto()
+    # One or Two Characters Tokens
+    EQUAL = enum.auto()
+    EQUAL_EQUAL = enum.auto()
+    GREATER = enum.auto()
+    GREATER_EQUAL = enum.auto()
+    LESS = enum.auto()
+    LESS_EQUAL = enum.auto()
+    BANG = enum.auto()
+    BANG_EQUAL = enum.auto()
     EOF = enum.auto()
 
 
 KEYWORDS = {
     "var": TokenType.VAR,
+    "and": TokenType.AND,
+    "class": TokenType.CLASS,
+    "else": TokenType.ELSE,
+    "false": TokenType.FALSE,
+    "fun": TokenType.FUN,
+    "for": TokenType.FOR,
+    "if": TokenType.IF,
+    "nil": TokenType.NIL,
+    "or": TokenType.OR,
+    "print": TokenType.PRINT,
+    "return": TokenType.RETURN,
+    "super": TokenType.SUPER,
+    "this": TokenType.THIS,
+    "true": TokenType.TRUE,
+    "while": TokenType.WHILE,
 }
 
 
