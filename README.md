@@ -15,6 +15,23 @@ $ python3 main.py
 $ python3 main.py <path/to/script.lox>
 ```
 
+## Lox Language Grammar Rules
+
+```
+expression -> equality;
+equality   -> comparison (("!=" | "==") | comparison)*
+comparison -> term ((">" | "<" | ">=" | "<=") | term)*
+term       -> factor (("+" | "-") | factor)*
+factor     -> unary (("*" | "/") | unary)*
+unary      -> ("!" | "-") unary | primary;
+primary    -> NUMBER | STRING | "true" | "false" | "nil" | "(" expression ")";
+```
+
+```shell
+# AST can be recreated with:
+$ python tools/ast_generator.py ./lox
+```
+
 ## Script Example
 
 ```csharp

@@ -28,7 +28,7 @@ class Scanner:
             case ";":
                 return Token(TokenType.SEMICOLON, ";", self.line)
             case "(":
-                return Token(TokenType.LEFTPARAM, "(", self.line)
+                return Token(TokenType.LEFTPAREN, "(", self.line)
             case ")":
                 return Token(TokenType.RIGHTPARAM, ")", self.line)
             case "{":
