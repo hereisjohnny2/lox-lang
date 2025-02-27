@@ -25,7 +25,8 @@ def main():
     if len(args) == 1:
         run_prompt()
     elif len(args) == 2:
-        run_script(Path(args[1]))
+        if not run_script(Path(args[1])):
+            exit(1)
     else:
         print("Usage: python3 main.py [path_to_script]")
         exit(1)

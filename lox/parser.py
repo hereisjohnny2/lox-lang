@@ -10,11 +10,7 @@ class Parser:
         self.current = 0
 
     def parse(self):
-        try:
-            return self.expression()
-        except LoxParserError as e:
-            print(e)
-            return None
+        return self.expression()
 
     def expression(self) -> Expr:
         return self.equality()

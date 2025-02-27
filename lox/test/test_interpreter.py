@@ -1,4 +1,5 @@
 import pytest
+from lox.errors import LoxRunTimeError
 from lox.expr_ast import Binary, Grouping, Literal, Unary
 from lox.interpreter import Interpreter
 from lox.token import Token, TokenType
@@ -65,6 +66,61 @@ def test_evaluate_numeric_expression():
 
     expected = 2.8
     assert_expr(expr, expected)
+
+
+binary_numeric_ops = [
+    (Token(TokenType.GREATER, ">", 1)),
+    (Token(TokenType.GREATER_EQUAL, ">=", 1)),
+    (Token(TokenType.LESS, "<", 1)),
+    (Token(TokenType.LESS_EQUAL, "<=", 1)),
+    (Token(TokenType.MINUS, "-", 1)),
+    (Token(TokenType.STAR, "*", 1)),
+    (Token(TokenType.SLASH, "/", 1)),
+]
+
+
+@pytest.mark.parametrize("op", binary_numeric_ops)
+def test_raise_when_binary_op_invalid_operand(op: Token):
+    expr = Binary(Literal(1), op, Literal("Invalid"))
+
+    with pytest.raises(LoxRunTimeError) as error:
+        assert_expr(expr, None)
+
+    assert (
+        error.value.args[0]
+        == f"[Lox Error] Line {op.line} at '{op.lexeme}': All operands must be a number."
+    )
+    assert error.value.operator == op
+
+
+def test_raise_when_plus_op_invalid_operand():
+    expr = Binary(
+        Literal(1),
+        Token(TokenType.PLUS, "+", 1),
+        Literal("Invalid"),
+    )
+
+    with pytest.raises(LoxRunTimeError) as error:
+        assert_expr(expr, None)
+
+    assert (
+        error.value.args[0]
+        == "[Lox Error] Line 1 at '+': Operands must be two numbers or two strings."
+    )
+    assert error.value.operator == Token(TokenType.PLUS, "+", 1)
+
+
+def test_raise_when_invalid_operand():
+    expr = Unary(Token(TokenType.MINUS, "-", 1), Literal("Invalid"))
+
+    with pytest.raises(LoxRunTimeError) as error:
+        assert_expr(expr, None)
+
+    assert (
+        error.value.args[0]
+        == "[Lox Error] Line 1 at '-': All operands must be a number."
+    )
+    assert error.value.operator == Token(TokenType.MINUS, "-", 1)
 
 
 def assert_expr(expr, expected):

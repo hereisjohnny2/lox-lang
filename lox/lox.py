@@ -1,6 +1,8 @@
-import pprint
+from ast import Expr
+from typing import Any
 
 from lox.ast_printer import AstPrinter
+from lox.errors import LoxParserError, LoxRunTimeError
 from lox.interpreter import Interpreter
 from lox.parser import Parser
 from lox.scanner import Scanner
@@ -8,20 +10,23 @@ from lox.scanner import Scanner
 
 class Lox:
     def run(source: str):
-        scanner = Scanner(source)
-        tokens = scanner.scan_tokens()
-        pprint.pprint(tokens)
+        try:
+            scanner = Scanner(source)
+            tokens = scanner.scan_tokens()
 
-        parser = Parser(tokens)
-        expr = parser.parse()
+            parser = Parser(tokens)
+            expr = parser.parse()
 
-        if not expr:
-            return
+            if not expr:
+                return
 
-        ast_printer = AstPrinter()
-        print(ast_printer.print(expr))
+            interpreter = Interpreter()
+            result = interpreter.evaluate(expr)
 
-        interpreter = Interpreter()
-        result = interpreter.evaluate(expr)
+            print(Lox.stringfy_expression(result))
+        except LoxParserError | LoxRunTimeError as e:
+            print(e)
+            return None
 
-        print(result)
+    def stringfy_expression(expr: Any):
+        return expr if expr else "nil"
