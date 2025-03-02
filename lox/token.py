@@ -26,7 +26,7 @@ class TokenType(enum.Enum):
     NUMERIC = enum.auto()
     # Single Characters Tokens
     SEMICOLON = enum.auto()
-    LEFTPARAM = enum.auto()
+    LEFTPAREN = enum.auto()
     RIGHTPARAM = enum.auto()
     LEFTBRACE = enum.auto()
     RIGHTBRACE = enum.auto()

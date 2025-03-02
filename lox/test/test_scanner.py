@@ -26,7 +26,7 @@ test_data = [
     ("1234", Token(TokenType.NUMERIC, "1234", 1, 1234)),
     ("1234.567", Token(TokenType.NUMERIC, "1234.567", 1, 1234.567)),
     (";", Token(TokenType.SEMICOLON, ";", 1)),
-    ("(", Token(TokenType.LEFTPARAM, "(", 1)),
+    ("(", Token(TokenType.LEFTPAREN, "(", 1)),
     (")", Token(TokenType.RIGHTPARAM, ")", 1)),
     ("{", Token(TokenType.LEFTBRACE, "{", 1)),
     ("}", Token(TokenType.RIGHTBRACE, "}", 1)),
